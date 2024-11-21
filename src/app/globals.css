@@ -19,3 +19,11 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Classe de background personalizado */
+.bg-custom-bg {
+  background-image: url('/images/fundo.png');
+  background-size: cover;
+  background-position: center;
+}
+

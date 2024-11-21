@@ -1,101 +1,108 @@
-import Image from "next/image";
+"use client"
+import Image from 'next/image';
+import Card from './components/Card';
+import { SlArrowDown } from "react-icons/sl";
+import Footer from './components/Footer';
+import { useState } from 'react';
 
-export default function Home() {
+export default function HomePage() {
+  const [showOverlay, setShowOverlay] = useState(false);
+
+  const toggleOverlay = () => {
+    setShowOverlay(!showOverlay);
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen flex flex-col">
+      {/* Seção de título com imagem de fundo */}
+      <div className="relative h-screen bg-cover bg-center" style={{ backgroundImage: "url('/images/fundo.png')" }}>
+        <div className="absolute top-32 left-20">
+          <h1 className="text-6xl font-bold text-blue-950">Energia Sustentável</h1>
+          <h2 className="text-5xl font-light text-gray-400 mt-2">Para Todos</h2>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+
+        <div className="absolute bottom-4 right-4 text-white text-3xl font-light">
+          <p className='text-white-700'>Transformando o futuro</p>
+          <p className='text-cyan-100 '>com energia limpa e acessível para todos.</p>
+        </div>
+      </div>
+
+      {/* Seção de cards */}
+      <div className="flex flex-col items-center bg-gray-100 bg-opacity-90 py-8">
+        <button
+          className="text-gray-700 font-semibold mb-4 flex items-center"
+          onClick={toggleOverlay}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+          Nossa Missão <SlArrowDown className="ml-2" />
+        </button>
+
+        <div className="flex space-x-8 mt-4">
+          <Card
+            title="Energia Solar"
+            description="Soluções de energia solar para um futuro sustentável."
+            imageSrc="/images/card1.jpg"
+            imageAlt="Imagem do Card 1"
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+          <Card
+            title="Energia Eólica"
+            description="Explorando a energia do vento para gerar eletricidade limpa."
+            imageSrc="/images/card2.jpg"
+            imageAlt="Imagem do Card 2"
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+          <Card
+            title="Energia Hidrelétrica"
+            description="Potencializando o uso da água para geração de energia."
+            imageSrc="/images/card3.jpg"
+            imageAlt="Imagem do Card 3"
           />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <Card
+            title="Energia Biomassa"
+            description="Transformando resíduos orgânicos em energia limpa."
+            imageSrc="/images/card4.jpg"
+            imageAlt="Imagem do Card 4"
+          />
+        </div>
+      </div>
+
+      {/* Overlay com animação */}
+      {showOverlay && (
+        <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50 animate-fadeIn">
+          <div className="bg-white p-8 rounded-lg shadow-lg max-w-md text-center transition-opacity duration-300 ease-in-out">
+            <h2 className="text-2xl font-bold text-gray-700">Nossa Missão</h2>
+            <p className="mt-4 text-gray-600">
+              Um sistema de monitoramento de projetos sustentáveis nacional, com detalhamento mais objetivo.
+            </p>
+            <button
+              className="mt-6 px-4 py-2 bg-cyan-800 text-white rounded-lg hover:bg-blue-200 transition duration-300 ease-in-out"
+              onClick={toggleOverlay}
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
+
+      <Footer />
+
+      <style jsx>{`
+        .animate-fadeIn {
+          animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .animate-fadeOut {
+          animation: fadeOut 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+          from { opacity: 1; }
+          to { opacity: 0; }
+        }
+      `}</style>
     </div>
   );
 }
