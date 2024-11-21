@@ -1,43 +1,42 @@
-"use client"
+"use client";
 import { useState } from "react";
-import { redirect } from "next/navigation"; // Importa o redirect para redirecionamento após o envio
+import { useRouter } from "next/navigation"; // Importa useRouter para redirecionamento
 import { GoCodeOfConduct } from "react-icons/go";
 import axios from "axios"; // Importa Axios
 
 export default function CadastroPage() {
+  const router = useRouter(); // Hook para redirecionamento
   const [nomeEmpresa, setNomeEmpresa] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [documento, setDocumento] = useState("");
   const [tipoDocumento, setTipoDocumento] = useState("cnpj"); // 'cnpj' por padrão
+  const [loading, setLoading] = useState(false); // Para controlar o estado de carregamento durante a requisição
 
   // Função para manipular o envio do formulário
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true); // Inicia o carregamento
 
-    // Define a URL com base no tipo de documento selecionado
     const apiUrl =
       tipoDocumento === "cnpj"
         ? "http://localhost:8080/pessoa/juridica/criar"
         : "http://localhost:8080/pessoa/fisica/criar";
 
-    // Dados enviados
     const body =
       tipoDocumento === "cnpj"
         ? {
             nomeEmpresa,
             email,
             senha,
-            cnpj: documento, // Campo esperado para pessoa jurídica
+            cnpj: documento,
           }
         : {
-            nome: nomeEmpresa, // Campo esperado para pessoa física
+            nome: nomeEmpresa,
             email,
             senha,
-            cpf: documento, // Campo esperado para pessoa física
+            cpf: documento,
           };
-
-    console.log("Dados enviados para a API:", body); // Log para depuração
 
     try {
       const response = await axios.post(apiUrl, body, {
@@ -46,17 +45,34 @@ export default function CadastroPage() {
         },
       });
 
-      if (response.status === 200 || response.status === 201) {
-        // Salvar informações de login no localStorage (ou em um estado global)
-        localStorage.setItem("user", JSON.stringify(response.data)); // Exemplo de token ou dados de usuário retornados pela API
+      console.log("Dados retornados pela API:", response.data);
 
-        // Redireciona para a tela home se o cadastro for bem-sucedido
-        redirect("/home");
+      if (response.status === 200 || response.status === 201) {
+        if (response.data && typeof response.data === "object") {
+          // Salva os dados retornados pela API
+          localStorage.setItem("user", JSON.stringify(response.data));
+        } else {
+          // Cria manualmente o objeto caso o retorno seja insuficiente
+          const userData = {
+            nomeEmpresa,
+            email,
+            senha,
+            documento,
+            tipoDocumento,
+          };
+          localStorage.setItem("user", JSON.stringify(userData));
+        }
+        alert("Cadastro realizado com sucesso!");
+        // Redireciona para a página de login
+        router.push("/login");
       } else {
-        console.error("Erro ao cadastrar usuário: ", response.data);
+        alert("Erro ao cadastrar usuário. Tente novamente.");
       }
     } catch (error) {
       console.error("Erro ao enviar dados para a API", error);
+      alert("Erro ao cadastrar usuário.");
+    } finally {
+      setLoading(false); // Finaliza o carregamento
     }
   };
 
@@ -91,7 +107,6 @@ export default function CadastroPage() {
           className="p-2 border rounded opacity-60"
         />
 
-        {/* Adiciona a opção de escolher entre CNPJ ou CPF */}
         <div className="flex items-center space-x-4">
           <label>
             <input
@@ -117,22 +132,31 @@ export default function CadastroPage() {
           </label>
         </div>
 
-        {/* O campo para inserir o CNPJ ou CPF */}
         <input
           type="text"
-          placeholder={tipoDocumento === "cnpj" ? "CNPJ" : "CPF"} // Muda o placeholder dependendo da escolha
+          placeholder={tipoDocumento === "cnpj" ? "CNPJ" : "CPF"}
           value={documento}
-          onChange={(e) => {
-            setDocumento(e.target.value); // Atualiza o estado com o valor inserido
-            console.log("Documento atualizado:", e.target.value); // Log para depuração
-          }}
+          onChange={(e) => setDocumento(e.target.value)}
           className="p-2 border rounded opacity-60"
         />
 
-        <button type="submit" className="bg-gray-600 text-white py-2 rounded opacity-60">
-          Cadastrar
+        <button
+          type="submit"
+          className="bg-gray-600 text-white py-2 rounded opacity-60"
+          disabled={loading}
+        >
+          {loading ? "Cadastrando..." : "Cadastrar"}
         </button>
       </form>
+      <div className="mt-4 text-center text-white">
+        <p className="text-sm">
+          Já possui uma conta?{" "}
+          <a href="/login" className="text-blue-400 hover:underline">
+            Clique aqui
+          </a>{" "}
+          para fazer login.
+        </p>
+      </div>
     </div>
   );
 }
