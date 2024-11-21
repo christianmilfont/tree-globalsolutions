@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import { useState } from "react";
 import { redirect } from "next/navigation"; // Importa o redirect para redirecionamento após o envio
 import { GoCodeOfConduct } from "react-icons/go";
@@ -48,6 +47,9 @@ export default function CadastroPage() {
       });
 
       if (response.status === 200 || response.status === 201) {
+        // Salvar informações de login no localStorage (ou em um estado global)
+        localStorage.setItem("user", JSON.stringify(response.data)); // Exemplo de token ou dados de usuário retornados pela API
+
         // Redireciona para a tela home se o cadastro for bem-sucedido
         redirect("/home");
       } else {

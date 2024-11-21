@@ -9,7 +9,6 @@ import axios from 'axios';  // Importando o axios
 interface Projeto {
   id: number;
   custo: number;
-  tipoFonte: string;
   regiao: string;
   status: string;
   descricao: string;
@@ -21,7 +20,7 @@ export default function ProjectListPage() {
 
   useEffect(() => {
     // Faz a requisição para a API do backend usando axios
-    axios.get("http://localhost:8080/projetos/buscar")
+    axios.get("http://localhost:8080/projetos/todos")
       .then((response) => {
         setProjetos(response.data);  // A resposta já é um objeto JSON
       })
@@ -58,7 +57,6 @@ export default function ProjectListPage() {
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Id do Projeto</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Custo do Projeto</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo de Fonte Utilizada</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Região de Origem</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descrição</th>
@@ -69,7 +67,6 @@ export default function ProjectListPage() {
                   <tr key={projeto.id}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{projeto.id}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">R$ {projeto.custo.toLocaleString('pt-BR')}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{projeto.tipoFonte}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{projeto.regiao}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{projeto.status}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{projeto.descricao}</td>
