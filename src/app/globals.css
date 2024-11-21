@@ -18,6 +18,12 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  margin: 0; /* Remove margin padrão do body */
+  padding: 0; /* Remove padding padrão do body */
+  box-sizing: border-box; /* Garante que o padding e border não afete o layout */
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden; /* Impede o scroll horizontal */
 }
 
 /* Classe de background personalizado */
@@ -25,5 +31,29 @@ body {
   background-image: url('/images/fundo.png');
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
 }
 
+/* Estilos para dispositivos móveis */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px; /* Ajusta a fonte para telas menores */
+  }
+
+  /* Ajustes de layout para imagens de fundo */
+  .bg-custom-bg {
+    background-attachment: scroll; /* Evita o efeito parallax em telas menores */
+  }
+}
+
+/* Ajustes para dispositivos menores que 480px */
+@media (max-width: 480px) {
+  body {
+    font-size: 12px; /* Fonte ainda menor para dispositivos muito pequenos */
+  }
+
+  /* Adiciona mais espaçamento nas laterais para telas pequenas */
+  .container {
+    padding: 10px;
+  }
+}
