@@ -3,6 +3,7 @@
 import Footer from '../components/Footer';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import axios from 'axios';  // Importando o axios
 
 // Defina a interface para o tipo dos projetos
 interface Projeto {
@@ -19,11 +20,14 @@ export default function ProjectListPage() {
   const [projetos, setProjetos] = useState<Projeto[]>([]);
 
   useEffect(() => {
-    // Faz a requisição para a API do backend
-    fetch("http://localhost:8080/api/projetos")
-      .then((response) => response.json())
-      .then((data) => setProjetos(data))
-      .catch((error) => console.error("Erro ao buscar projetos:", error));
+    // Faz a requisição para a API do backend usando axios
+    axios.get("http://localhost:8080/projetos/buscar")
+      .then((response) => {
+        setProjetos(response.data);  // A resposta já é um objeto JSON
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar projetos:", error);  // Tratamento de erro
+      });
   }, []);
 
   return (
