@@ -18,7 +18,7 @@ export default function CadastroPage() {
     e.preventDefault();
     setLoading(true); // Inicia o carregamento
 
-    const apiUrl =
+    const apiUrl = process.env.API_URL ||
       tipoDocumento === "cnpj"
         ? "http://localhost:8080/pessoa/juridica/criar"
         : "http://localhost:8080/pessoa/fisica/criar";

@@ -17,7 +17,7 @@ export default function CadastrarProjeto() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8080/projetos/criar", {
+      const response = await axios.post(process.env.API_URL ||"http://localhost:8080/projetos/criar", {
         nomeDoProjeto,
         regiao,
         custo,

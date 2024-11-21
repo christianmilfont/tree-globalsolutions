@@ -21,7 +21,7 @@ export default function ProjectListPage() {
 
   useEffect(() => {
     // Faz a requisição para carregar todos os projetos
-    axios.get("http://localhost:8080/projetos/todos")
+    axios.get(process.env.API_URL ||"http://localhost:8080/projetos/todos")
       .then((response) => {
         setProjetos(response.data);
       })
@@ -37,7 +37,7 @@ export default function ProjectListPage() {
     }
 
     // Faz a requisição para buscar o projeto pelo ID
-    axios.get(`http://localhost:8080/projetos/busca/${filtroID}`)
+    axios.get(process.env.API_URL ||`http://localhost:8080/projetos/busca/${filtroID}`)
       .then((response) => {
         setFilteredProjeto(response.data); // Salva o projeto filtrado
         setShowFilterModal(false); // Fecha o modal
