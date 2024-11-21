@@ -27,7 +27,7 @@ export default function CadastrarProjeto() {
 
       if (response.status === 200 || response.status === 201) {
         // Redireciona para a página inicial após o cadastro bem-sucedido
-        router.push("/home");
+        router.push("/");
       } else {
         console.error("Erro ao cadastrar projeto");
       }
