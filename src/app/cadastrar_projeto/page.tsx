@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function CadastrarProjeto() {
-  const [tipoFonte, setTipoFonte] = useState("");
+  const [nomeDoProjeto, setNomeDoProjeto] = useState("");
   const [regiao, setRegiao] = useState("");
   const [custo, setCusto] = useState("");
   const [status, setStatus] = useState(""); // Adicionando o estado para status
@@ -17,8 +17,8 @@ export default function CadastrarProjeto() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8080/projeto/criar", {
-        tipoFonte,
+      const response = await axios.post("http://localhost:8080/projetos/criar", {
+        nomeDoProjeto,
         regiao,
         custo,
         status,
@@ -60,8 +60,8 @@ export default function CadastrarProjeto() {
             </label>
             <input
               type="text"
-              value={tipoFonte}
-              onChange={(e) => setTipoFonte(e.target.value)}
+              value={nomeDoProjeto}
+              onChange={(e) => setNomeDoProjeto(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             />
           </div>
