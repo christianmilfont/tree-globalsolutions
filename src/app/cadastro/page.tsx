@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { redirect } from "next/navigation"; // Importa o redirect para redirecionamento após o envio
 import { GoCodeOfConduct } from "react-icons/go";
+import axios from "axios"; // Importa Axios
 
 export default function CadastroPage() {
   const [nomeEmpresa, setNomeEmpresa] = useState("");
@@ -40,19 +41,17 @@ export default function CadastroPage() {
     console.log("Dados enviados para a API:", body); // Log para depuração
 
     try {
-      const response = await fetch(apiUrl, {
-        method: "POST",
+      const response = await axios.post(apiUrl, body, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(body),
       });
 
-      if (response.ok) {
+      if (response.status === 200 || response.status === 201) {
         // Redireciona para a tela home se o cadastro for bem-sucedido
         redirect("/home");
       } else {
-        console.error("Erro ao cadastrar usuário");
+        console.error("Erro ao cadastrar usuário: ", response.data);
       }
     } catch (error) {
       console.error("Erro ao enviar dados para a API", error);
@@ -70,9 +69,7 @@ export default function CadastroPage() {
       <form onSubmit={handleSubmit} className="flex flex-col w-80 space-y-4">
         <input
           type="text"
-          placeholder={
-            tipoDocumento === "cnpj" ? "Nome da Empresa" : "Nome Completo"
-          }
+          placeholder={tipoDocumento === "cnpj" ? "Nome da Empresa" : "Nome Completo"}
           value={nomeEmpresa}
           onChange={(e) => setNomeEmpresa(e.target.value)}
           className="p-2 border rounded opacity-60"
